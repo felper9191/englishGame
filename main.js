@@ -1,4 +1,3 @@
-// --- JAVASCRIPT ---
 import perguntas from "./questoes.js";
 // 1. DADOS (Configurações)
 const totalCells = 60;
@@ -438,15 +437,38 @@ function mostrarFeedbackErro(pergunta) {
 }
 
 // 2. ELEMENTOS DO DOM
-const boardEl = document.getElementById('board');
-const playerEl = document.getElementById('player');
-const statusEl = document.getElementById('status');
-const btnDice = document.getElementById('dice-btn');
-const modalOverlay = document.getElementById('modal-overlay');
+let boardEl;
+let playerEl;
+let statusEl;
+let btnDice;
+let modalOverlay;
 
 
 // 3. INICIALIZAR
 function init() {
+  boardEl = document.getElementById('board');
+  playerEl = document.getElementById('player');
+  statusEl = document.getElementById('status');
+  btnDice = document.getElementById('dice-btn');
+  modalOverlay = document.getElementById('modal-overlay');
+
+  if (!boardEl || !playerEl || !statusEl || !btnDice || !modalOverlay) {
+    console.error('Erro ao inicializar elementos do DOM. Verifique se o HTML contém os IDs corretos.');
+    return;
+  }
+
+  btnDice.onclick = async () => {
+    btnDice.disabled = true;
+    const dado = Math.floor(Math.random() * 6) + 1;
+
+    atualizarStatus(`🎲 Você tirou ${dado}`);
+
+    await movePlayer(dado);
+    await processarCasaEspecial();
+
+    btnDice.disabled = false;
+  };
+
   inicializarPoolPerguntas(moduloAtual);
   casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
   createBoard();
@@ -776,7 +798,12 @@ function atualizarStatus(mensagem = "") {
 
 
 // Iniciar
-window.onload = init;
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
 window.abrirLoja = abrirLoja;
 window.fecharLoja = fecharLoja;
 window.comprarItem = comprarItem;
