@@ -556,28 +556,6 @@ createBoard();
 
 
 // 4. LÓGICA
-btnDice.onclick = async () => {
-    btnDice.disabled = true;
-    const dado = Math.floor(Math.random() * 6) + 1;
-
-
-
-
-    atualizarStatus(`🎲 Você tirou ${dado}`);
-
-
-
-
-    await movePlayer(dado);
-    await processarCasaEspecial();
-
-
-
-
-   
-    btnDice.disabled = false;
-};
-
 async function processarCasaEspecial() {
     const visitadas = new Set();
     let evento;
