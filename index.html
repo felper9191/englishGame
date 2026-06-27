@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Jogo de Tabuleiro Final</title>
+</head>
+<body>
+    <h1>Tabuleiro JS</h1>
+    <div class="legenda">
+        <div class="cardEvento cell-quiz">Quiz</div>
+        <div class="cardEvento cell-luck">Avança</div>
+        <div class="cardEvento cell-badluck">Volta</div>
+        <div class="cardEvento cell-vida">Vida</div>
+        <div class="cardEvento ajuda-pular">+Pular</div>
+        <div class="cardEvento ajuda-eliminar">+Eliminar</div>
+        <div class="cardEvento cell-perde-vida">Perde Vida</div>
+        <div class="cardEvento cell-perde-ajuda">Perde 1 Ajuda</div>
+        <div class="cardEvento cell-perde-todas">Perde Toda Ajuda</div>
+        <div class="cardEvento cell-peso-up">+Peso</div>
+        <div class="cardEvento cell-peso-down">-Peso</div>
+        <div class="cardEvento loja">Loja</div>
+    </div>
+    
+    <div class="controls">
+        <p id="status">Clique no dado para começar!</p>
+        <button id="dice-btn">🎲 Jogar Dado</button>
+    </div>
+ 
+    <div id="game-container">
+        <div id="board"></div>
+        <div id="player"></div>
+    </div>
+ 
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="modal-title">Pergunta</h3>
+            <p id="modal-msg"></p>
+            <div id="modal-opts" class="options-grid"></div>
+            <div id="modal-help"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- MODAL LOJA -->
+<div id="loja-overlay" class="modal-overlay" style="display: none;">
+  <div class="modal loja-modal">
+    <h2>🛒 Loja</h2>
+
+
+
+
+
+
+
+
+    <div id="loja-pontos" class="loja-pontos"></div>
+
+
+
+
+
+
+
+
+    <div class="loja-itens">
+      <button onclick="comprarItem('vida')">
+        ❤️ Vida extra <span>50 pts</span>
+      </button>
+
+
+
+
+
+
+
+
+      <button onclick="comprarItem('eliminar')">
+        ❓ Eliminar 2 alternativas <span>30 pts</span>
+      </button>
+
+
+
+
+
+
+
+
+      <button onclick="comprarItem('pular')">
+        ⏭ Pular pergunta <span>30 pts</span>
+      </button>
+
+
+
+
+
+
+
+
+      <button onclick="comprarItem('peso')">
+        ⚖️ Aumentar peso <span>70 pts</span>
+      </button>
+    </div>
+
+
+
+
+
+
+
+
+    <button class="btn-fechar" onclick="fecharLoja()">Fechar</button>
+  </div>
+</div>
+
+
+<script type="module" src="main.js"></script>
+</body>
+</html>
+
+
