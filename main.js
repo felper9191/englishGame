@@ -242,7 +242,8 @@ function fecharLoja() {
 
 function atualizarLoja(aviso = "") {
   document.getElementById("loja-pontos").innerText =
-    `${aviso} ⭐ ${jogador.pontos} pts | ❤️ ${jogador.vidas}/${MAX_VIDAS} | ❓ ${jogador.ajudas.eliminar}/${MAX_AJUDA} | ⏭ ${jogador.ajudas.pular}/${MAX_AJUDA} | ⚖️ x${pesoAtual.toFixed(1)}`;
+    `${aviso} Pontos: ${jogador.pontos} pts  •  Vidas: ${jogador.vidas}/${MAX_VIDAS}  •  Ajudas: ${jogador.ajudas.eliminar}/${MAX_AJUDA} | ${jogador.ajudas.pular}/${MAX_AJUDA}  •  Peso x${pesoAtual.toFixed(1)}`;
+  atualizarStatus();
 }
 
 function comprarItem(tipo) {
@@ -252,14 +253,14 @@ function comprarItem(tipo) {
   const precoFinal = getPrecoComModulo(item.preco);
 
   if (jogador.pontos < precoFinal) {
-    atualizarLoja("❌ Pontos insuficientes.");
+    atualizarLoja("Pontos insuficientes.");
     return;
   }
 
 
   const resultado = item.comprar?.();
   if (resultado === false) {
-    atualizarLoja("⚠️ Limite atingido.");
+    atualizarLoja("Limite atingido.");
     return;
   }
 
@@ -267,7 +268,7 @@ function comprarItem(tipo) {
   jogador.pontos -= precoFinal;
 
 
-  atualizarLoja(`🛒 ${tipo} comprado por ${precoFinal} pts!`);
+  atualizarLoja(`${tipo} comprado por ${precoFinal} pts!`);
 }
 
 
@@ -337,17 +338,17 @@ function criarPoolEventos(config) {
             if (tipo === 'aumentaPeso')
   pool.push({
     type: 'aumentaPeso',
-    msg: "🔥 Peso das perguntas aumentado!"
+    msg: "Peso das perguntas aumentado"
   });
 
 
 if (tipo === 'diminuiPeso')
   pool.push({
     type: 'diminuiPeso',
-    msg: "❄️ Peso das perguntas diminuído!"
+    msg: "Peso das perguntas diminuído"
   });
   if (tipo === 'loja')
-  pool.push({ type: 'loja', msg: "🛒 Você encontrou uma loja!" });
+  pool.push({ type: 'loja', msg: "Você encontrou uma loja" });
         }
     }
     return pool;
@@ -404,12 +405,12 @@ function mostrarFeedbackErro(pergunta) {
   const exemplo = pergunta.feedbackErro?.exemplo || "";
   const dica = pergunta.feedbackErro?.dica || "";
 
-  titulo.innerText = "❌ Resposta incorreta";
+  titulo.innerText = "Resposta incorreta";
 
   msg.innerHTML = `
-    <p><strong>📘 Por quê?</strong><br>${explicacao}</p>
-    ${exemplo ? `<p><strong>✅ Exemplo correto:</strong><br>${exemplo}</p>` : ""}
-    ${dica ? `<p><strong>💡 Dica:</strong><br>${dica}</p>` : ""}
+    <p><strong>Por quê?</strong><br>${explicacao}</p>
+    ${exemplo ? `<p><strong>Exemplo correto:</strong><br>${exemplo}</p>` : ""}
+    ${dica ? `<p><strong>Dica:</strong><br>${dica}</p>` : ""}
   `;
 
   optsDiv.innerHTML = "";
@@ -442,6 +443,7 @@ let playerEl;
 let statusEl;
 let btnDice;
 let modalOverlay;
+let shopOpenButtons;
 
 
 // 3. INICIALIZAR
@@ -451,17 +453,40 @@ function init() {
   statusEl = document.getElementById('status');
   btnDice = document.getElementById('dice-btn');
   modalOverlay = document.getElementById('modal-overlay');
+  shopOpenButtons = Array.from(document.querySelectorAll('#shop-open-btn, #shop-open-btn-2, .shop-toggle'));
 
-  if (!boardEl || !playerEl || !statusEl || !btnDice || !modalOverlay) {
-    console.error('Erro ao inicializar elementos do DOM. Verifique se o HTML contém os IDs corretos.');
+  // Fallbacks para localizar elementos quando IDs forem alterados acidentalmente
+  if (!boardEl) boardEl = document.querySelector('#board') || document.querySelector('.board');
+  if (!playerEl) playerEl = document.querySelector('#player') || document.querySelector('.player');
+  if (!statusEl) statusEl = document.querySelector('#status') || document.querySelector('.status') || document.querySelector('[id^="status"]');
+  if (!btnDice) btnDice = document.querySelector('#dice-btn') || document.querySelector('button[data-role="dice"]') || document.querySelector('button');
+  if (!modalOverlay) modalOverlay = document.getElementById('modal-overlay') || document.querySelector('.modal-overlay');
+  if (!shopOpenButtons.length) {
+    const fallback = document.querySelector('[data-role="shop"]');
+    if (fallback) shopOpenButtons = [fallback];
+  }
+
+  const missing = [];
+  if (!boardEl) missing.push('board');
+  if (!playerEl) missing.push('player');
+  if (!statusEl) missing.push('status');
+  if (!btnDice) missing.push('dice-btn');
+  if (!modalOverlay) missing.push('modal-overlay');
+
+  if (missing.length) {
+    console.error('Erro ao inicializar elementos do DOM. IDs ausentes ou incorretos:', missing.join(', '));
     return;
   }
+
+  shopOpenButtons.forEach(button => {
+    button.addEventListener('click', abrirLoja);
+  });
 
   btnDice.onclick = async () => {
     btnDice.disabled = true;
     const dado = Math.floor(Math.random() * 6) + 1;
 
-    atualizarStatus(`🎲 Você tirou ${dado}`);
+    atualizarStatus(`Você tirou ${dado}`);
 
     await movePlayer(dado);
     await processarCasaEspecial();
@@ -683,6 +708,7 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             btn.innerText = "Pular";
             btn.onclick = () => {
                 jogador.ajudas.pular--;
+                atualizarStatus();
                 modalOverlay.style.display = 'none';
                 resolve();
             };
@@ -694,6 +720,8 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
 
         q.opcoes.forEach((txt, i) => {
             const btn = document.createElement('button');
+            btn.classList.add('btn-opt');
+            btn.type = 'button';
             btn.innerText = txt;
             btn.onclick = async () => {
                 modalOverlay.style.display = 'none';
@@ -720,14 +748,16 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
 
 
   atualizarStatus(
-    `✅ Correto! +${base} pontos (${q.nivel})` +
+    `Correto! +${base} pontos (${q.nivel})` +
   ` | Peso x${pesoAtual}` +
-    (bonus > 0 ? ` 🔥 Bônus sequência +${bonus}` : "") +
+    (bonus > 0 ? ` Bônus sequência +${bonus}` : "") +
     ` | Sequência: ${streak}`
   );
+  atualizarStatus();
 } else {
                     streak = 0;
                     jogador.vidas--;
+                    atualizarStatus(`Incorreto! Vidas restantes: ${jogador.vidas}`);
                     const materia = q.materia;
 
                     errosPorMateria[materia] = (errosPorMateria[materia] || 0) + 1;
@@ -766,10 +796,23 @@ function perderAjudaAleatoria() {
 
 
 
-function atualizarStatus(mensagem = "") {
-  statusEl.innerText =
-    `${mensagem}
-❤️ ${jogador.vidas} | ⭐ ${jogador.pontos} | 🔥 ${streak} | ⚖️ x${pesoAtual} | ❓ ${jogador.ajudas.eliminar} | ⏭ ${jogador.ajudas.pular}`;
+function atualizarStatus(mensagem = null) {
+  // atualizar a linha de status (parágrafo)
+  if (statusEl && mensagem !== null) {
+    statusEl.innerText = mensagem;
+  }
+
+  // atualizar os itens visuais no painel
+  const uiPontos = document.getElementById('ui-pontos');
+  const uiVidas = document.getElementById('ui-vidas');
+  const uiPular = document.getElementById('ui-pular');
+  const uiEliminar = document.getElementById('ui-eliminar');
+  const uiPeso = document.getElementById('ui-peso');
+  if (uiPontos) uiPontos.innerText = jogador.pontos;
+  if (uiVidas) uiVidas.innerText = jogador.vidas;
+  if (uiPular) uiPular.innerText = jogador.ajudas.pular;
+  if (uiEliminar) uiEliminar.innerText = jogador.ajudas.eliminar;
+  if (uiPeso) uiPeso.innerText = `x${pesoAtual.toFixed(1)}`;
 }
 
 
@@ -784,6 +827,7 @@ if (document.readyState === 'loading') {
 
 window.abrirLoja = abrirLoja;
 window.fecharLoja = fecharLoja;
+window.comprarItem = comprarItem;
 window.comprarItem = comprarItem;
 
 
