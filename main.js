@@ -519,13 +519,13 @@ function init() {
   statusEl = document.getElementById('status');
   btnDice = document.getElementById('dice-btn');
   modalOverlay = document.getElementById('modal-overlay');
-  shopOpenButtons = Array.from(document.querySelectorAll('#shop-open-btn, #shop-open-btn-2, .shop-toggle'));
+  shopOpenButtons = Array.from(document.querySelectorAll('#shop-open-btn, #shop-open-btn-2'));
 
   // Adicionar listener para botão de dashboard
-  const dashboardBtns = document.querySelectorAll('#dashboard-btn, [data-role="dashboard"]');
-  dashboardBtns.forEach(btn => {
-    btn.addEventListener('click', abrirDashboard);
-  });
+  const dashboardBtn = document.getElementById('dashboard-btn');
+  if (dashboardBtn) {
+    dashboardBtn.addEventListener('click', abrirDashboard);
+  }
 
   // Fallbacks para localizar elementos quando IDs forem alterados acidentalmente
   if (!boardEl) boardEl = document.querySelector('#board') || document.querySelector('.board');

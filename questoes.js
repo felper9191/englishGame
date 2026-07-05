@@ -713,6 +713,3 @@ const perguntas = [
 ];
 
 export default perguntas;
-
-
-export default perguntas;
