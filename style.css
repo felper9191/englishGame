@@ -31,6 +31,7 @@ body{
 
 .page-shell{width:min(1180px,100%);display:flex;flex-direction:column;gap:20px}
 .page-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px}
+.header-buttons{display:flex;gap:10px;align-items:center}
 .eyebrow{margin:0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted)}
 h1{margin:0;color:var(--gold);font-size:clamp(1.65rem,2.8vw,3rem);font-weight:800;letter-spacing:0.4px;line-height:1.05}
 .shop-toggle{background:rgba(255,255,255,0.08);color:var(--card);padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);font-weight:700;transition:transform .15s ease,background .15s ease}
@@ -166,7 +167,59 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 /* Loja as slide-over (right side) */
 #loja-overlay.modal-overlay{justify-content:flex-end;align-items:stretch}
 .loja-modal{width:340px;height:100%;max-width:420px;border-radius:12px 0 0 12px;padding:20px;box-shadow:-20px 0 40px rgba(2,6,23,0.6)}
+/* Dashboard Modal */
+#dashboard-overlay.modal-overlay{justify-content:center;align-items:center}
+.dashboard-modal{background:#0b1220;color:var(--card);padding:24px;border-radius:12px;width:min(900px,95vw);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(2,6,23,0.8)}
+.dashboard-header-close{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.dashboard-header-close h2{margin:0;color:var(--gold);font-size:1.5rem}
+.btn-fechar-dashboard{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;font-size:1.2rem;min-width:unset;width:36px;height:36px}
+.btn-fechar-dashboard:hover{background:rgba(255,255,255,0.08);color:var(--card)}
 
+.dashboard-content{display:flex;flex-direction:column;gap:24px}
+
+/* Dashboard Stats Cards */
+.dashboard-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:rgba(255,255,255,0.05);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:8px}
+.stat-card.success{border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.05)}
+.stat-card.danger{border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.05)}
+.stat-card.accent{border-color:rgba(37,99,235,0.3);background:rgba(37,99,235,0.05)}
+.stat-card.gold{border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.05)}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
+.stat-value{font-size:28px;font-weight:800;color:var(--card)}
+.stat-card.success .stat-value{color:var(--success)}
+.stat-card.danger .stat-value{color:var(--danger)}
+.stat-card.accent .stat-value{color:var(--accent)}
+.stat-card.gold .stat-value{color:var(--gold)}
+
+/* Dashboard Section */
+.dashboard-section{display:flex;flex-direction:column;gap:12px}
+.dashboard-section h3{margin:0;color:var(--card);font-size:1.1rem;font-weight:700}
+
+/* Performance Table */
+.performance-table{display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
+.table-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);padding:0;font-weight:700;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:0.06em}
+.table-header > div{padding:12px 14px}
+
+.table-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;padding:0;background:rgba(255,255,255,0.01)}
+.table-row > div{padding:12px 14px;border-right:1px solid rgba(255,255,255,0.05)}
+.table-row > div:last-child{border-right:none}
+
+.col-materia,.col-modulo{text-align:left;color:var(--card);font-weight:600}
+.col-acertos,.col-erros,.col-taxa{text-align:center}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;color:#fff}
+.badge.success{background:rgba(16,185,129,0.2);color:var(--success)}
+.badge.danger{background:rgba(239,68,68,0.2);color:var(--danger)}
+.badge.accent{background:rgba(37,99,235,0.2);color:var(--accent)}
+
+/* Responsive - Dashboard */
+@media (max-width:768px){
+  .dashboard-modal{width:95vw;padding:16px}
+  .dashboard-stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .table-header,.table-row{grid-template-columns:2fr 1fr 1fr !important}
+  .col-taxa{display:none}
+  .table-header > div:nth-child(4),.table-row > div:nth-child(4){display:none}
+}
 /* Status items */
 .status-items{display:flex;gap:12px;align-items:center}
 .status-item{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;font-weight:700;color:var(--card);font-size:13px}

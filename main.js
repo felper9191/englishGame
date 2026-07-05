@@ -7,6 +7,17 @@ let streak = 0;
 let pesoAtual = 1.0;
 let poolPerguntasPorModulo = {};
 const errosPorMateria = {};
+let maiorStreak = 0;
+
+// Sistema de Estatísticas de Desempenho
+const estatisticas = {
+  totalPerguntas: 0,
+  acertosPorMateria: {},
+  errosPorMateria: {},
+  acertosPorModulo: {},
+  errosPorModulo: {},
+  nivelPorMateria: {} // para rastrear "Fácil", "Médio", "Dificil"
+};
 
 const pontosPorNivel = {
   facil: 10,
@@ -437,6 +448,61 @@ function mostrarFeedbackErro(pergunta) {
   modalOverlay.style.display = "flex";
 }
 
+// Função para rastrear desempenho
+function rastrearDesempenho(pergunta, acertou) {
+  // Incrementar total de perguntas
+  estatisticas.totalPerguntas++;
+
+  // Rastrear por matéria
+  if (!estatisticas.acertosPorMateria[pergunta.materia]) {
+    estatisticas.acertosPorMateria[pergunta.materia] = 0;
+    estatisticas.errosPorMateria[pergunta.materia] = 0;
+  }
+
+  if (acertou) {
+    estatisticas.acertosPorMateria[pergunta.materia]++;
+  } else {
+    estatisticas.errosPorMateria[pergunta.materia]++;
+  }
+
+  // Rastrear por módulo
+  if (!estatisticas.acertosPorModulo[pergunta.modulo]) {
+    estatisticas.acertosPorModulo[pergunta.modulo] = 0;
+    estatisticas.errosPorModulo[pergunta.modulo] = 0;
+  }
+
+  if (acertou) {
+    estatisticas.acertosPorModulo[pergunta.modulo]++;
+  } else {
+    estatisticas.errosPorModulo[pergunta.modulo]++;
+  }
+
+  // Rastrear nível por matéria
+  if (!estatisticas.nivelPorMateria[pergunta.materia]) {
+    estatisticas.nivelPorMateria[pergunta.materia] = {};
+  }
+  
+  const nivel = pergunta.nivel;
+  if (!estatisticas.nivelPorMateria[pergunta.materia][nivel]) {
+    estatisticas.nivelPorMateria[pergunta.materia][nivel] = {
+      acertos: 0,
+      erros: 0
+    };
+  }
+
+  if (acertou) {
+    estatisticas.nivelPorMateria[pergunta.materia][nivel].acertos++;
+  } else {
+    estatisticas.nivelPorMateria[pergunta.materia][nivel].erros++;
+  }
+
+  // Atualizar maior sequência
+  if (streak > maiorStreak) {
+    maiorStreak = streak;
+  }
+}
+
+
 // 2. ELEMENTOS DO DOM
 let boardEl;
 let playerEl;
@@ -454,6 +520,12 @@ function init() {
   btnDice = document.getElementById('dice-btn');
   modalOverlay = document.getElementById('modal-overlay');
   shopOpenButtons = Array.from(document.querySelectorAll('#shop-open-btn, #shop-open-btn-2, .shop-toggle'));
+
+  // Adicionar listener para botão de dashboard
+  const dashboardBtns = document.querySelectorAll('#dashboard-btn, [data-role="dashboard"]');
+  dashboardBtns.forEach(btn => {
+    btn.addEventListener('click', abrirDashboard);
+  });
 
   // Fallbacks para localizar elementos quando IDs forem alterados acidentalmente
   if (!boardEl) boardEl = document.querySelector('#board') || document.querySelector('.board');
@@ -726,17 +798,14 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             btn.onclick = async () => {
                 modalOverlay.style.display = 'none';
 
-
-
-
                 if (i === q.correta) {
-  streak++; // ✅ aumenta sequência
+                  streak++; // ✅ aumenta sequência
+                  rastrearDesempenho(q, true);
 
-
-  const nivelNormalizado = q.nivel
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+                  const nivelNormalizado = q.nivel
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
 
 
   const base = pontosPorNivel[nivelNormalizado] || 0;
@@ -754,9 +823,10 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
     ` | Sequência: ${streak}`
   );
   atualizarStatus();
-} else {
+                } else {
                     streak = 0;
                     jogador.vidas--;
+                    rastrearDesempenho(q, false);
                     atualizarStatus(`Incorreto! Vidas restantes: ${jogador.vidas}`);
                     const materia = q.materia;
 
@@ -793,6 +863,135 @@ function perderAjudaAleatoria() {
     jogador.ajudas[arr[Math.floor(Math.random() * arr.length)]]--;
 }
 
+// Funções do Dashboard
+function calcularTaxaAcerto() {
+  if (estatisticas.totalPerguntas === 0) return 0;
+  const totalAcertos = Object.values(estatisticas.acertosPorMateria).reduce((a, b) => a + b, 0);
+  return ((totalAcertos / estatisticas.totalPerguntas) * 100).toFixed(1);
+}
+
+function gerarHTMLDashboard() {
+  const taxaAcerto = calcularTaxaAcerto();
+  const totalAcertos = Object.values(estatisticas.acertosPorMateria).reduce((a, b) => a + b, 0);
+  const totalErros = Object.values(estatisticas.errosPorMateria).reduce((a, b) => a + b, 0);
+
+  let html = `
+    <div class="dashboard-header">
+      <h2>📊 Dashboard de Desempenho</h2>
+    </div>
+
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <span class="stat-label">Total de Perguntas</span>
+        <span class="stat-value">${estatisticas.totalPerguntas}</span>
+      </div>
+      <div class="stat-card success">
+        <span class="stat-label">Total de Acertos</span>
+        <span class="stat-value">${totalAcertos}</span>
+      </div>
+      <div class="stat-card danger">
+        <span class="stat-label">Total de Erros</span>
+        <span class="stat-value">${totalErros}</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-label">Taxa de Acerto</span>
+        <span class="stat-value">${taxaAcerto}%</span>
+      </div>
+      <div class="stat-card gold">
+        <span class="stat-label">Maior Sequência</span>
+        <span class="stat-value">${maiorStreak}</span>
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h3>📚 Desempenho por Matéria</h3>
+      <div class="performance-table">
+        <div class="table-header">
+          <div class="col-materia">Matéria</div>
+          <div class="col-acertos">Acertos</div>
+          <div class="col-erros">Erros</div>
+          <div class="col-taxa">Taxa</div>
+        </div>
+  `;
+
+  // Gerar linhas por matéria
+  for (const materia in estatisticas.acertosPorMateria) {
+    const acertos = estatisticas.acertosPorMateria[materia] || 0;
+    const erros = estatisticas.errosPorMateria[materia] || 0;
+    const total = acertos + erros;
+    const taxa = total > 0 ? ((acertos / total) * 100).toFixed(0) : 0;
+
+    html += `
+      <div class="table-row">
+        <div class="col-materia"><strong>${materia}</strong></div>
+        <div class="col-acertos"><span class="badge success">${acertos}</span></div>
+        <div class="col-erros"><span class="badge danger">${erros}</span></div>
+        <div class="col-taxa"><span class="badge accent">${taxa}%</span></div>
+      </div>
+    `;
+  }
+
+  html += `
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h3>📈 Desempenho por Módulo</h3>
+      <div class="performance-table">
+        <div class="table-header">
+          <div class="col-modulo">Módulo</div>
+          <div class="col-acertos">Acertos</div>
+          <div class="col-erros">Erros</div>
+          <div class="col-taxa">Taxa</div>
+        </div>
+  `;
+
+  // Gerar linhas por módulo
+  for (const modulo in estatisticas.acertosPorModulo) {
+    const acertos = estatisticas.acertosPorModulo[modulo] || 0;
+    const erros = estatisticas.errosPorModulo[modulo] || 0;
+    const total = acertos + erros;
+    const taxa = total > 0 ? ((acertos / total) * 100).toFixed(0) : 0;
+
+    html += `
+      <div class="table-row">
+        <div class="col-modulo"><strong>Módulo ${modulo}</strong></div>
+        <div class="col-acertos"><span class="badge success">${acertos}</span></div>
+        <div class="col-erros"><span class="badge danger">${erros}</span></div>
+        <div class="col-taxa"><span class="badge accent">${taxa}%</span></div>
+      </div>
+    `;
+  }
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function abrirDashboard() {
+  const dashboardOverlay = document.getElementById('dashboard-overlay');
+  const dashboardContent = document.getElementById('dashboard-content');
+  
+  if (dashboardContent) {
+    dashboardContent.innerHTML = gerarHTMLDashboard();
+  }
+  
+  if (dashboardOverlay) {
+    dashboardOverlay.style.display = 'flex';
+  }
+}
+
+function fecharDashboard() {
+  const dashboardOverlay = document.getElementById('dashboard-overlay');
+  if (dashboardOverlay) {
+    dashboardOverlay.style.display = 'none';
+  }
+}
+
+
 
 
 
@@ -828,7 +1027,8 @@ if (document.readyState === 'loading') {
 window.abrirLoja = abrirLoja;
 window.fecharLoja = fecharLoja;
 window.comprarItem = comprarItem;
-window.comprarItem = comprarItem;
+window.abrirDashboard = abrirDashboard;
+window.fecharDashboard = fecharDashboard;
 
 
 
