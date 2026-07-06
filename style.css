@@ -125,7 +125,7 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 .cell-perde-ajuda{background:#f97316;color:white}
 .cell-perde-todas{background:#374151;color:white}
 .cell-peso-up{background:#06b6d4;color:#032;}
-.cell-peso-down{background:#7c3aed;color:white}
+.cell-peso-down{background:#f5d442;color:white}
 .loja{background:#111827;color:white}
 .start{background:var(--success);color:#fff}
 .end{background:var(--danger);color:#fff}
