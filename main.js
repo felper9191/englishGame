@@ -1,6 +1,7 @@
 import perguntas from "./questoes.js";
 // 1. DADOS (Configurações)
 const totalCells = 60;
+const STORAGE_KEY = 'englishQuestState';
 let playerPos = 0;
 let moduloAtual = 1;
 let streak = 0;
@@ -242,13 +243,27 @@ function inicializarPoolPerguntas(modulo) {
   poolPerguntasPorModulo[modulo] = [...perguntasModulo];
 }
 
+function mostrarOverlay(id) {
+  const overlay = document.getElementById(id);
+  if (!overlay) return;
+  overlay.hidden = false;
+  overlay.style.display = 'flex';
+}
+
+function ocultarOverlay(id) {
+  const overlay = document.getElementById(id);
+  if (!overlay) return;
+  overlay.hidden = true;
+  overlay.style.display = 'none';
+}
+
 function abrirLoja() {
-  document.getElementById("loja-overlay").style.display = "flex";
+  mostrarOverlay('loja-overlay');
   atualizarLoja();
 }
 
 function fecharLoja() {
-  document.getElementById("loja-overlay").style.display = "none";
+  ocultarOverlay('loja-overlay');
 }
 
 function atualizarLoja(aviso = "") {
@@ -279,9 +294,105 @@ function comprarItem(tipo) {
   jogador.pontos -= precoFinal;
 
 
+  salvarEstado();
   atualizarLoja(`${tipo} comprado por ${precoFinal} pts!`);
 }
 
+
+function salvarEstado() {
+  try {
+    const estado = {
+      playerPos,
+      moduloAtual,
+      streak,
+      pesoAtual,
+      maiorStreak,
+      jogador: {
+        vidas: jogador.vidas,
+        pontos: jogador.pontos,
+        ajudas: {
+          eliminar: jogador.ajudas.eliminar,
+          pular: jogador.ajudas.pular
+        }
+      },
+      errosPorMateria: { ...errosPorMateria },
+      estatisticas: {
+        totalPerguntas: estatisticas.totalPerguntas,
+        acertosPorMateria: { ...estatisticas.acertosPorMateria },
+        errosPorMateria: { ...estatisticas.errosPorMateria },
+        acertosPorModulo: { ...estatisticas.acertosPorModulo },
+        errosPorModulo: { ...estatisticas.errosPorModulo },
+        nivelPorMateria: JSON.parse(JSON.stringify(estatisticas.nivelPorMateria))
+      },
+      poolPerguntasPorModulo: Object.fromEntries(
+        Object.entries(poolPerguntasPorModulo).map(([modulo, perguntasRestantes]) => [
+          modulo,
+          perguntasRestantes.map(pergunta => ({ ...pergunta }))
+        ])
+      ),
+      casasEspeciais: { ...casasEspeciais }
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+  } catch (error) {
+    console.warn('Não foi possível salvar o estado:', error);
+  }
+}
+
+function carregarEstado() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+
+    const estado = JSON.parse(raw);
+    if (!estado) return false;
+
+    playerPos = Number(estado.playerPos ?? 0);
+    moduloAtual = Number(estado.moduloAtual ?? 1);
+    streak = Number(estado.streak ?? 0);
+    pesoAtual = Number(estado.pesoAtual ?? 1.0);
+    maiorStreak = Number(estado.maiorStreak ?? 0);
+
+    jogador.vidas = Number(estado.jogador?.vidas ?? 3);
+    jogador.pontos = Number(estado.jogador?.pontos ?? 0);
+    jogador.ajudas.eliminar = Number(estado.jogador?.ajudas?.eliminar ?? 0);
+    jogador.ajudas.pular = Number(estado.jogador?.ajudas?.pular ?? 0);
+
+    Object.keys(errosPorMateria).forEach(chave => delete errosPorMateria[chave]);
+    Object.entries(estado.errosPorMateria || {}).forEach(([chave, valor]) => {
+      errosPorMateria[chave] = valor;
+    });
+
+    estatisticas.totalPerguntas = Number(estado.estatisticas?.totalPerguntas ?? 0);
+    estatisticas.acertosPorMateria = { ...(estado.estatisticas?.acertosPorMateria || {}) };
+    estatisticas.errosPorMateria = { ...(estado.estatisticas?.errosPorMateria || {}) };
+    estatisticas.acertosPorModulo = { ...(estado.estatisticas?.acertosPorModulo || {}) };
+    estatisticas.errosPorModulo = { ...(estado.estatisticas?.errosPorModulo || {}) };
+    estatisticas.nivelPorMateria = JSON.parse(JSON.stringify(estado.estatisticas?.nivelPorMateria || {}));
+
+    poolPerguntasPorModulo = {};
+    Object.entries(estado.poolPerguntasPorModulo || {}).forEach(([modulo, perguntasRestantes]) => {
+      poolPerguntasPorModulo[modulo] = Array.isArray(perguntasRestantes)
+        ? perguntasRestantes.map(pergunta => ({ ...pergunta }))
+        : [];
+    });
+
+    casasEspeciais = estado.casasEspeciais ? { ...estado.casasEspeciais } : {};
+    return true;
+  } catch (error) {
+    console.warn('Não foi possível carregar o estado salvo:', error);
+    localStorage.removeItem(STORAGE_KEY);
+    return false;
+  }
+}
+
+function limparEstadoSalvo() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.warn('Não foi possível limpar o estado salvo:', error);
+  }
+}
 
 function criarPoolEventos(config) {
     const pool = [];
@@ -510,6 +621,75 @@ let statusEl;
 let btnDice;
 let modalOverlay;
 let shopOpenButtons;
+let homeOverlay;
+
+function mostrarTelaInicial() {
+  if (homeOverlay) {
+    homeOverlay.hidden = false;
+    homeOverlay.style.display = 'flex';
+  }
+  atualizarResumoInicial();
+}
+
+function fecharTelaInicial() {
+  if (homeOverlay) {
+    homeOverlay.hidden = true;
+    homeOverlay.style.display = 'none';
+  }
+}
+
+function atualizarResumoInicial() {
+  const taxaAcerto = calcularTaxaAcerto();
+  const totalAcertos = Object.values(estatisticas.acertosPorMateria).reduce((a, b) => a + b, 0);
+  const totalPerguntas = estatisticas.totalPerguntas || 0;
+  const progresso = Math.round((playerPos / Math.max(totalCells - 1, 1)) * 100);
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.innerText = value;
+  };
+
+  setText('home-pontos', jogador.pontos);
+  setText('home-vidas', jogador.vidas);
+  setText('home-modulo', moduloAtual);
+  setText('home-taxa', `${taxaAcerto}%`);
+  setText('home-sequencia', maiorStreak);
+  setText('home-progresso', `${progresso}%`);
+  setText('home-status', totalPerguntas > 0
+    ? `Você fez ${totalPerguntas} perguntas com ${totalAcertos} acertos.`
+    : 'Seu progresso é salvo na sessão atual e pode ser retomado a qualquer momento.');
+}
+
+function reiniciarJogo() {
+  playerPos = 0;
+  moduloAtual = 1;
+  streak = 0;
+  pesoAtual = 1.0;
+  poolPerguntasPorModulo = {};
+
+  Object.keys(errosPorMateria).forEach(chave => delete errosPorMateria[chave]);
+  Object.keys(jogador.ajudas).forEach(chave => { jogador.ajudas[chave] = 0; });
+  jogador.vidas = 3;
+  jogador.pontos = 0;
+
+  estatisticas.totalPerguntas = 0;
+  estatisticas.acertosPorMateria = {};
+  estatisticas.errosPorMateria = {};
+  estatisticas.acertosPorModulo = {};
+  estatisticas.errosPorModulo = {};
+  estatisticas.nivelPorMateria = {};
+  maiorStreak = 0;
+
+  limparEstadoSalvo();
+  inicializarPoolPerguntas(moduloAtual);
+  casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
+  createBoard();
+  setTimeout(updatePlayerPos, 100);
+
+  if (btnDice) btnDice.disabled = false;
+  atualizarStatus('Novo jogo iniciado! Clique no dado para começar.');
+  fecharTelaInicial();
+}
 
 
 // 3. INICIALIZAR
@@ -520,6 +700,33 @@ function init() {
   btnDice = document.getElementById('dice-btn');
   modalOverlay = document.getElementById('modal-overlay');
   shopOpenButtons = Array.from(document.querySelectorAll('#shop-open-btn, #shop-open-btn-2'));
+  homeOverlay = document.getElementById('home-overlay');
+
+  const btnNovoJogo = document.getElementById('btn-novo-jogo');
+  const btnContinuar = document.getElementById('btn-continuar');
+  const btnEstatisticasHome = document.getElementById('btn-estatisticas-home');
+  const btnConfiguracoesHome = document.getElementById('btn-configuracoes-home');
+
+  const temEstadoSalvo = carregarEstado();
+  if (temEstadoSalvo) {
+    const homeStatus = document.getElementById('home-status');
+    if (homeStatus) {
+      homeStatus.innerText = 'Partida salva encontrada. Você pode continuar de onde parou.';
+    }
+  }
+
+  if (btnNovoJogo) btnNovoJogo.addEventListener('click', reiniciarJogo);
+  if (btnContinuar) btnContinuar.addEventListener('click', () => {
+    fecharTelaInicial();
+    atualizarStatus('Continuando sua partida...');
+  });
+  if (btnEstatisticasHome) btnEstatisticasHome.addEventListener('click', () => { fecharTelaInicial(); abrirDashboard(); });
+  if (btnConfiguracoesHome) btnConfiguracoesHome.addEventListener('click', () => {
+    const homeStatus = document.getElementById('home-status');
+    if (homeStatus) {
+      homeStatus.innerText = 'Configurações rápidas: tema escuro, dicas ativadas e modo estudo pronto.';
+    }
+  });
 
   // Adicionar listener para botão de dashboard
   const dashboardBtn = document.getElementById('dashboard-btn');
@@ -554,6 +761,9 @@ function init() {
     button.addEventListener('click', abrirLoja);
   });
 
+  window.addEventListener('beforeunload', salvarEstado);
+  window.addEventListener('pagehide', salvarEstado);
+
   btnDice.onclick = async () => {
     btnDice.disabled = true;
     const dado = Math.floor(Math.random() * 6) + 1;
@@ -566,10 +776,17 @@ function init() {
     btnDice.disabled = false;
   };
 
-  inicializarPoolPerguntas(moduloAtual);
-  casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
+  if (!poolPerguntasPorModulo[moduloAtual] || poolPerguntasPorModulo[moduloAtual].length === 0) {
+    inicializarPoolPerguntas(moduloAtual);
+  }
+
+  if (!casasEspeciais || Object.keys(casasEspeciais).length === 0) {
+    casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
+  }
+
   createBoard();
   setTimeout(updatePlayerPos, 100);
+  mostrarTelaInicial();
 }
 
 
@@ -647,6 +864,8 @@ casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModu
 createBoard();
     setTimeout(updatePlayerPos, 100);
     }
+
+    salvarEstado();
 }
 
 
@@ -718,6 +937,7 @@ else if (evento.type === 'loja') {
 
 
     }
+    salvarEstado();
 }
 
 
@@ -745,10 +965,10 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
         optsDiv.innerHTML = "";
         helpDiv.innerHTML = "";
 
-
-
-
-        modalOverlay.style.display = 'flex';
+        if (modalOverlay) {
+            modalOverlay.hidden = false;
+            modalOverlay.style.display = 'flex';
+        }
 
 
 
@@ -781,7 +1001,10 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             btn.onclick = () => {
                 jogador.ajudas.pular--;
                 atualizarStatus();
-                modalOverlay.style.display = 'none';
+                if (modalOverlay) {
+                    modalOverlay.hidden = true;
+                    modalOverlay.style.display = 'none';
+                }
                 resolve();
             };
             helpDiv.appendChild(btn);
@@ -796,7 +1019,10 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             btn.type = 'button';
             btn.innerText = txt;
             btn.onclick = async () => {
-                modalOverlay.style.display = 'none';
+                if (modalOverlay) {
+                    modalOverlay.hidden = true;
+                    modalOverlay.style.display = 'none';
+                }
 
                 if (i === q.correta) {
                   streak++; // ✅ aumenta sequência
@@ -822,7 +1048,7 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
     (bonus > 0 ? ` Bônus sequência +${bonus}` : "") +
     ` | Sequência: ${streak}`
   );
-  atualizarStatus();
+  salvarEstado();
                 } else {
                     streak = 0;
                     jogador.vidas--;
@@ -980,6 +1206,7 @@ function abrirDashboard() {
   }
   
   if (dashboardOverlay) {
+    dashboardOverlay.hidden = false;
     dashboardOverlay.style.display = 'flex';
   }
 }
@@ -987,6 +1214,7 @@ function abrirDashboard() {
 function fecharDashboard() {
   const dashboardOverlay = document.getElementById('dashboard-overlay');
   if (dashboardOverlay) {
+    dashboardOverlay.hidden = true;
     dashboardOverlay.style.display = 'none';
   }
 }
@@ -1012,6 +1240,9 @@ function atualizarStatus(mensagem = null) {
   if (uiPular) uiPular.innerText = jogador.ajudas.pular;
   if (uiEliminar) uiEliminar.innerText = jogador.ajudas.eliminar;
   if (uiPeso) uiPeso.innerText = `x${pesoAtual.toFixed(1)}`;
+
+  atualizarResumoInicial();
+  salvarEstado();
 }
 
 

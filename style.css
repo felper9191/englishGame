@@ -146,6 +146,19 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(2,6,23,0.7);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
+.modal-overlay[hidden]{display:none!important}
+.home-overlay{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(2,6,23,0.9),rgba(15,23,42,0.84))}
+.home-card{width:min(760px,94vw);background:linear-gradient(145deg,rgba(15,23,42,0.96),rgba(30,41,59,0.94));border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:28px;box-shadow:0 30px 80px rgba(2,6,23,0.45);display:flex;flex-direction:column;gap:18px}
+.home-card h2{margin:0;color:var(--gold);font-size:clamp(2rem,3vw,2.8rem)}
+.home-subtitle{margin:0;color:var(--muted);font-size:1rem;line-height:1.6;max-width:620px}
+.home-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.home-stat-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.home-stat-card strong{font-size:1.4rem;color:var(--card)}
+.home-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:6px}
+.home-btn{width:100%;padding:14px 16px;border-radius:14px;font-weight:700}
+.home-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white}
+.home-btn.secondary{background:rgba(255,255,255,0.06);color:var(--card);border:1px solid rgba(255,255,255,0.12)}
+.home-tip{margin:0;padding:12px 14px;border-radius:12px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.2);color:#d1fae5;font-size:0.95rem}
 .modal-box{background:#fff;color:#0b1220;border-radius:12px;padding:22px;width:min(520px,95%);max-width:520px;display:flex;flex-direction:column;gap:20px}
 .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
 .options-grid button{width:100%;text-align:left;display:block}
@@ -240,6 +253,8 @@ button:focus-visible,.btn-opt:focus-visible{outline:3px solid rgba(37,99,235,0.1
   h1{font-size:18px}
   .controls{flex-direction:column;align-items:stretch;gap:8px}
   .options-grid{grid-template-columns:1fr}
+  .home-card{padding:22px}
+  .home-actions{grid-template-columns:1fr}
 }
 
 @media (max-width:420px){

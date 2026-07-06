@@ -108,6 +108,50 @@
     </div>
   </div>
 
+  <div id="home-overlay" class="modal-overlay home-overlay" role="dialog" aria-modal="true" aria-labelledby="home-title" hidden>
+    <div class="home-card">
+      <p class="eyebrow">Bem-vindo ao</p>
+      <h2 id="home-title">English Quest</h2>
+      <p class="home-subtitle">Acompanhe seu desempenho, avance pelos módulos e transforme estudo em diversão.</p>
+
+      <div class="home-stats">
+        <div class="home-stat-card">
+          <span class="stat-label">Pontos</span>
+          <strong id="home-pontos">0</strong>
+        </div>
+        <div class="home-stat-card">
+          <span class="stat-label">Vidas</span>
+          <strong id="home-vidas">3</strong>
+        </div>
+        <div class="home-stat-card">
+          <span class="stat-label">Módulo</span>
+          <strong id="home-modulo">1</strong>
+        </div>
+        <div class="home-stat-card">
+          <span class="stat-label">Taxa</span>
+          <strong id="home-taxa">0%</strong>
+        </div>
+        <div class="home-stat-card">
+          <span class="stat-label">Sequência</span>
+          <strong id="home-sequencia">0</strong>
+        </div>
+        <div class="home-stat-card">
+          <span class="stat-label">Progresso</span>
+          <strong id="home-progresso">0%</strong>
+        </div>
+      </div>
+
+      <div class="home-actions">
+        <button id="btn-novo-jogo" type="button" class="home-btn primary">▶ Novo Jogo</button>
+        <button id="btn-continuar" type="button" class="home-btn secondary">▶ Continuar</button>
+        <button id="btn-estatisticas-home" type="button" class="home-btn secondary">📊 Estatísticas</button>
+        <button id="btn-configuracoes-home" type="button" class="home-btn secondary">⚙ Configurações</button>
+      </div>
+
+      <p id="home-status" class="home-tip">Seu progresso é salvo na sessão atual e pode ser retomado a qualquer momento.</p>
+    </div>
+  </div>
+
   <script type="module" src="main.js"></script>
 </body>
 </html>
