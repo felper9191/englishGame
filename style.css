@@ -130,6 +130,24 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 .start{background:var(--success);color:#fff}
 .end{background:var(--danger);color:#fff}
 
+/* Animação de pulo da peça */
+@keyframes playerJump {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Classe para ativar a animação de pulo */
+#player.jumping {
+  animation: playerJump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 /* Player pawn: size adjusts with cell size */
 #player{
   width:calc(var(--cell-size) * 0.45);

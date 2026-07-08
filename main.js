@@ -838,31 +838,52 @@ function updatePlayerPos() {
     playerEl.style.top = (cell.offsetTop + 20) + 'px';
 }
 
+// Anima o pulo da peça
+async function playJumpAnimation() {
+    const playerEl = document.getElementById('player');
+    playerEl.classList.remove('jumping');
+    // Trigger reflow para resetar a animação
+    void playerEl.offsetWidth;
+    playerEl.classList.add('jumping');
+    
+    // Aguardar a animação terminar
+    await new Promise(r => setTimeout(r, 400));
+    playerEl.classList.remove('jumping');
+}
 
-// Movimento
+// Movimento com animação de pulo passo a passo
 async function movePlayer(steps) {
-    playerPos += steps;
-    if (playerPos >= totalCells - 1) playerPos = totalCells - 1;
-    if (playerPos < 0) playerPos = 0;
-
-
-    updatePlayerPos();
-    await new Promise(r => setTimeout(r, 600));
-
+    const initialPos = playerPos;
+    const finalPos = Math.min(totalCells - 1, Math.max(0, initialPos + steps));
+    const totalSteps = Math.abs(finalPos - initialPos);
+    
+    // Animar cada passo individual
+    for (let i = 1; i <= totalSteps; i++) {
+        if (finalPos > initialPos) {
+            playerPos = initialPos + i;
+        } else {
+            playerPos = initialPos - i;
+        }
+        
+        updatePlayerPos();
+        await playJumpAnimation();
+    }
+    
+    // Aguardar um pouco antes de processar eventos especiais
+    await new Promise(r => setTimeout(r, 300));
 
     if (playerPos === totalCells - 1) {
-moduloAtual++;
-streak = 0;
-pesoAtual = 1.0;
+        moduloAtual++;
+        streak = 0;
+        pesoAtual = 1.0;
 
-
-alert(`🎉 Módulo ${moduloAtual - 1} concluído! Bem-vindo ao módulo ${moduloAtual}`);
-abrirLoja();
-inicializarPoolPerguntas(moduloAtual);
-playerPos = 0;
-casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
-createBoard();
-    setTimeout(updatePlayerPos, 100);
+        alert(`🎉 Módulo ${moduloAtual - 1} concluído! Bem-vindo ao módulo ${moduloAtual}`);
+        abrirLoja();
+        inicializarPoolPerguntas(moduloAtual);
+        playerPos = 0;
+        casasEspeciais = gerarCasasEspeciaisControladas(totalCells, configEventosPorModulo[moduloAtual]);
+        createBoard();
+        setTimeout(updatePlayerPos, 100);
     }
 
     salvarEstado();
