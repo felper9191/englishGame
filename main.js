@@ -551,12 +551,18 @@ function mostrarFeedbackErro(pergunta) {
   const btn = document.createElement("button");
   btn.innerText = "Entendi, continuar";
   btn.onclick = () => {
-    modalOverlay.style.display = "none";
+    if (modalOverlay) {
+      modalOverlay.hidden = true;
+      modalOverlay.style.display = "none";
+    }
   };
 
   optsDiv.appendChild(btn);
 
-  modalOverlay.style.display = "flex";
+  if (modalOverlay) {
+    modalOverlay.hidden = false;
+    modalOverlay.style.display = "flex";
+  }
 }
 
 // Função para rastrear desempenho
