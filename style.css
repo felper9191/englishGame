@@ -192,7 +192,7 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 .loja-itens button:hover{background:#161d2f;transform:translateY(-1px)}
 .loja-itens button span:first-child{color:#f8fafc;font-weight:700}
 .loja-itens button span:last-child{color:var(--gold);font-weight:700;font-size:13px}
-.btn-fechar{background:var(--danger);color:#fff;padding:10px 14px;border-radius:10px;border:0;min-width:100px}
+.btn-fechar{background:var(--danger);color:#fff;padding:10px 14px;border-radius:10px;border:0;min-width:100px; margin-top:1rem}
 .btn-fechar:hover{filter:brightness(1.05)}
 
 /* Loja as slide-over (right side) */
