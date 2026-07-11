@@ -20,6 +20,7 @@
       <div class="header-buttons">
         <button id="dashboard-btn" type="button" class="shop-toggle" aria-label="Abrir dashboard">📊 Dashboard</button>
         <button id="shop-open-btn" type="button" class="shop-toggle" aria-label="Abrir loja">Loja</button>
+        <button id="exit-btn" type="button" class="shop-toggle exit-btn" aria-label="Sair do jogo">🚪 Sair</button>
       </div>
     </header>
 
@@ -104,6 +105,17 @@
           <button type="button" class="btn-fechar-dashboard" onclick="fecharDashboard()" aria-label="Fechar dashboard">✕</button>
         </div>
         <div id="dashboard-content" class="dashboard-content"></div>
+      </div>
+    </div>
+
+    <div id="exit-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title" hidden>
+      <div class="modal exit-modal">
+        <h2 id="exit-title">Sair do jogo</h2>
+        <p>Você quer voltar ao menu inicial ou fechar a aplicação?</p>
+        <div class="exit-actions">
+          <button id="btn-voltar-menu" type="button" class="home-btn secondary">🏠 Voltar ao menu</button>
+          <button id="btn-sair-app" type="button" class="home-btn primary">🚪 Sair</button>
+        </div>
       </div>
     </div>
   </div>

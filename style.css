@@ -201,6 +201,13 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 /* Dashboard Modal */
 #dashboard-overlay.modal-overlay{justify-content:center;align-items:center}
 .dashboard-modal{background:#0b1220;color:var(--card);padding:24px;border-radius:12px;width:min(900px,95vw);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(2,6,23,0.8)}
+.exit-modal{background:linear-gradient(145deg,rgba(15,23,42,0.96),rgba(30,41,59,0.94));color:var(--card);padding:24px;border-radius:18px;width:min(420px,92vw);box-shadow:0 24px 60px rgba(2,6,23,0.45)}
+.exit-modal h2{margin:0 0 8px;color:var(--gold)}
+.exit-modal p{margin:0 0 18px;color:var(--muted);line-height:1.6}
+.exit-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.exit-actions .home-btn{margin:0}
+.exit-btn{background:rgba(239,68,68,0.16);border-color:rgba(239,68,68,0.24)}
+.exit-btn:hover{background:rgba(239,68,68,0.24)}
 .dashboard-header-close{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.08)}
 .dashboard-header-close h2{margin:0;color:var(--gold);font-size:1.5rem}
 .btn-fechar-dashboard{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;font-size:1.2rem;min-width:unset;width:36px;height:36px}

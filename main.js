@@ -266,6 +266,29 @@ function fecharLoja() {
   ocultarOverlay('loja-overlay');
 }
 
+function abrirModalSaida() {
+  mostrarOverlay('exit-overlay');
+}
+
+function fecharModalSaida() {
+  ocultarOverlay('exit-overlay');
+}
+
+function voltarAoMenuInicial() {
+  fecharModalSaida();
+  fecharLoja();
+  fecharDashboard();
+  mostrarTelaInicial();
+  if (btnDice) btnDice.disabled = true;
+  atualizarStatus('Você voltou ao menu inicial.');
+}
+
+function sairDaAplicacao() {
+  fecharModalSaida();
+  limparEstadoSalvo();
+  window.location.replace('about:blank');
+}
+
 function atualizarLoja(aviso = "") {
   document.getElementById("loja-pontos").innerText =
     `${aviso} Pontos: ${jogador.pontos} pts  •  Vidas: ${jogador.vidas}/${MAX_VIDAS}  •  Ajudas: ${jogador.ajudas.eliminar}/${MAX_AJUDA} | ${jogador.ajudas.pular}/${MAX_AJUDA}  •  Peso x${pesoAtual.toFixed(1)}`;
@@ -634,6 +657,7 @@ function mostrarTelaInicial() {
     homeOverlay.hidden = false;
     homeOverlay.style.display = 'flex';
   }
+  if (btnDice) btnDice.disabled = true;
   atualizarResumoInicial();
 }
 
@@ -712,6 +736,9 @@ function init() {
   const btnContinuar = document.getElementById('btn-continuar');
   const btnEstatisticasHome = document.getElementById('btn-estatisticas-home');
   const btnConfiguracoesHome = document.getElementById('btn-configuracoes-home');
+  const btnSairJogo = document.getElementById('exit-btn');
+  const btnVoltarMenu = document.getElementById('btn-voltar-menu');
+  const btnSairApp = document.getElementById('btn-sair-app');
 
   const temEstadoSalvo = carregarEstado();
   if (temEstadoSalvo) {
@@ -724,6 +751,7 @@ function init() {
   if (btnNovoJogo) btnNovoJogo.addEventListener('click', reiniciarJogo);
   if (btnContinuar) btnContinuar.addEventListener('click', () => {
     fecharTelaInicial();
+    if (btnDice) btnDice.disabled = false;
     atualizarStatus('Continuando sua partida...');
   });
   if (btnEstatisticasHome) btnEstatisticasHome.addEventListener('click', () => { fecharTelaInicial(); abrirDashboard(); });
@@ -738,6 +766,18 @@ function init() {
   const dashboardBtn = document.getElementById('dashboard-btn');
   if (dashboardBtn) {
     dashboardBtn.addEventListener('click', abrirDashboard);
+  }
+
+  if (btnSairJogo) {
+    btnSairJogo.addEventListener('click', abrirModalSaida);
+  }
+
+  if (btnVoltarMenu) {
+    btnVoltarMenu.addEventListener('click', voltarAoMenuInicial);
+  }
+
+  if (btnSairApp) {
+    btnSairApp.addEventListener('click', sairDaAplicacao);
   }
 
   // Fallbacks para localizar elementos quando IDs forem alterados acidentalmente
@@ -1287,6 +1327,10 @@ window.fecharLoja = fecharLoja;
 window.comprarItem = comprarItem;
 window.abrirDashboard = abrirDashboard;
 window.fecharDashboard = fecharDashboard;
+window.abrirModalSaida = abrirModalSaida;
+window.fecharModalSaida = fecharModalSaida;
+window.voltarAoMenuInicial = voltarAoMenuInicial;
+window.sairDaAplicacao = sairDaAplicacao;
 
 
 
