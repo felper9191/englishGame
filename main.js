@@ -588,6 +588,40 @@ function mostrarFeedbackErro(pergunta) {
   }
 }
 
+function mostrarFeedbackAcerto(pergunta, base, bonus, total) {
+  const titulo = document.getElementById("modal-title");
+  const msg = document.getElementById("modal-msg");
+  const optsDiv = document.getElementById("modal-opts");
+  const helpDiv = document.getElementById("modal-help");
+
+  titulo.innerText = "Resposta correta!";
+
+  msg.innerHTML = `
+    <p><strong>Parabéns!</strong></p>
+    <p>Você ganhou <strong>${total} pts</strong> — Base: ${base} pts · Peso: x${pesoAtual.toFixed(1)}${bonus > 0 ? ` · Bônus sequência: +${bonus} pts` : ''}.</p>
+    <p>Sequência atual: <strong>${streak}</strong></p>
+  `;
+
+  optsDiv.innerHTML = "";
+  helpDiv.innerHTML = "";
+
+  const btn = document.createElement("button");
+  btn.innerText = "Continuar";
+  btn.onclick = () => {
+    if (modalOverlay) {
+      modalOverlay.hidden = true;
+      modalOverlay.style.display = "none";
+    }
+  };
+
+  optsDiv.appendChild(btn);
+
+  if (modalOverlay) {
+    modalOverlay.hidden = false;
+    modalOverlay.style.display = 'flex';
+  }
+}
+
 // Função para rastrear desempenho
 function rastrearDesempenho(pergunta, acertou) {
   // Incrementar total de perguntas
@@ -641,6 +675,7 @@ function rastrearDesempenho(pergunta, acertou) {
     maiorStreak = streak;
   }
 }
+
 
 
 // 2. ELEMENTOS DO DOM
@@ -846,7 +881,6 @@ function createBoard() {
 
 
 
-
         if (i === 0) cell.innerText = "Início";
         else if (i === totalCells - 1) cell.innerText = "FIM";
         else cell.innerText = i;
@@ -874,6 +908,7 @@ if (casasEspeciais[i]) {
         boardEl.appendChild(cell);
     }
 }
+
 
 
 // Atualiza posição
@@ -947,10 +982,8 @@ async function processarCasaEspecial() {
 
 
 
-
         if (visitadas.has(playerPos)) break;
         visitadas.add(playerPos);
-
 
 
 
@@ -963,6 +996,7 @@ async function processarCasaEspecial() {
         else if (evento.type === 'ganhaVida') {
             jogador.vidas = Math.min(MAX_VIDAS, jogador.vidas + 1);
         }
+
 
 
         else if (evento.type === 'perdeVida') {
@@ -1002,7 +1036,6 @@ else if (evento.type === 'loja') {
 
 
 
-
     }
     salvarEstado();
 }
@@ -1028,7 +1061,6 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
 
 
 
-
         optsDiv.innerHTML = "";
         helpDiv.innerHTML = "";
 
@@ -1036,7 +1068,6 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             modalOverlay.hidden = false;
             modalOverlay.style.display = 'flex';
         }
-
 
 
 
@@ -1059,9 +1090,6 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             helpDiv.appendChild(btn);
         }
 
-
-
-
         if (jogador.ajudas.pular > 0) {
             const btn = document.createElement('button');
             btn.innerText = "Pular";
@@ -1076,9 +1104,6 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
             };
             helpDiv.appendChild(btn);
         }
-
-
-
 
         q.opcoes.forEach((txt, i) => {
             const btn = document.createElement('button');
@@ -1100,22 +1125,21 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
                     .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "");
 
+                  const base = pontosPorNivel[nivelNormalizado] || 0;
+                  const bonus = calcularBonusSequencia(streak);
+                  const total = Math.round((base * pesoAtual) + bonus);
 
-  const base = pontosPorNivel[nivelNormalizado] || 0;
-  const bonus = calcularBonusSequencia(streak);
-  const total = Math.round((base * pesoAtual) + bonus);
+                  jogador.pontos += total;
 
+                  atualizarStatus(
+                    `Correto! +${base} pontos (${q.nivel})` +
+                    ` | Peso x${pesoAtual}` +
+                    (bonus > 0 ? ` Bônus sequência +${bonus}` : "") +
+                    ` | Sequência: ${streak}`
+                  );
+                  salvarEstado();
 
-  jogador.pontos += total;
-
-
-  atualizarStatus(
-    `Correto! +${base} pontos (${q.nivel})` +
-  ` | Peso x${pesoAtual}` +
-    (bonus > 0 ? ` Bônus sequência +${bonus}` : "") +
-    ` | Sequência: ${streak}`
-  );
-  salvarEstado();
+                  mostrarFeedbackAcerto(q, base, bonus, total);
                 } else {
                     streak = 0;
                     jogador.vidas--;
@@ -1134,14 +1158,8 @@ const q = pool.splice(index, 1)[0]; // REMOVE a pergunta usada
                     }
                 }
 
-
-
-
                 resolve();
             };
-
-
-
 
             optsDiv.appendChild(btn);
         });
@@ -1289,7 +1307,6 @@ function fecharDashboard() {
 
 
 
-
 function atualizarStatus(mensagem = null) {
   // atualizar a linha de status (parágrafo)
   if (statusEl && mensagem !== null) {
@@ -1331,7 +1348,4 @@ window.abrirModalSaida = abrirModalSaida;
 window.fecharModalSaida = fecharModalSaida;
 window.voltarAoMenuInicial = voltarAoMenuInicial;
 window.sairDaAplicacao = sairDaAplicacao;
-
-
-
 
