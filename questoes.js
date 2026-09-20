@@ -157,6 +157,19 @@ const perguntas = [
 }
 },
 {
+  "questao": "Choose the alternative that correctly completes the sentences, both in meaning and in grammar: 'Today is __________ than yesterday, but still __________ than last week.'",
+  "opcoes": ["hot - cold", "hotter - colder", "the hottest - the coldest", "more hot - more cold"],
+  "correta": 1,
+  "modulo": 2,
+  "nivel": "Médio",
+  "materia": "Adjetivos em Inglês",
+  "feedbackErro": {
+  "explicacao": "Quando o adjetivo é curto e termina em consoante - vogal - consoante, dobra-se a última letra e adicina-se 'er' no comparativo.",
+  "exemplo": "My car is faster than yours.",
+  "dica": "Verifique o tamanho dos adjetivos."
+}
+},
+{
   "questao": "Em inglês, os adjetivos geralmente vêm:",
   "opcoes": ["Depois do substantivo", "Antes do substantivo", "No final da frase", "Entre o verbo e o sujeito"],
   "correta": 1,
