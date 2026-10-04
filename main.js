@@ -55,46 +55,67 @@ const jogador = {
 let casasEspeciais = {};
 
 const configEventosPorModulo = {
-  1: { quiz: 16,
+  1: { quiz: 22,
     avancar: 4,
     voltar: 4,
     ganhaVida: 3,
     perdeVida: 3,
-    ganhaEliminar: 5,
-    ganhaPular: 5,
-    perdeAjuda: 4,
+    ganhaEliminar: 3,
+    ganhaPular: 3,
+    perdeAjuda: 2,
     perdeTodasAjudas: 1,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  2: { quiz: 16,
+  2: { quiz: 20,
     avancar: 4,
     voltar: 4,
     ganhaVida: 3,
     perdeVida: 3,
-    ganhaEliminar: 5,
-    ganhaPular: 5,
-    perdeAjuda: 4,
+    ganhaEliminar: 4,
+    ganhaPular: 3,
+    perdeAjuda: 3,
     perdeTodasAjudas: 1,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  3: { quiz: 16,
+  3: { quiz: 20,
     avancar: 4,
     voltar: 4,
     ganhaVida: 3,
     perdeVida: 3,
-    ganhaEliminar: 5,
-    ganhaPular: 5,
-    perdeAjuda: 4,
+    ganhaEliminar: 4,
+    ganhaPular: 4,
+    perdeAjuda: 3,
     perdeTodasAjudas: 1,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  4: { quiz: 20,
+  4: { quiz: 24,
+    avancar: 3,
+    voltar: 3,
+    ganhaVida: 3,
+    perdeVida: 3,
+    ganhaEliminar: 3,
+    ganhaPular: 3,
+    perdeAjuda: 3,
+    perdeTodasAjudas: 2,
+    aumentaPeso: 2,
+    diminuiPeso: 2,
+},
+  5: { quiz: 24,
+    avancar: 3,
+    voltar: 3,
+    ganhaVida: 3,
+    perdeVida: 3,
+    ganhaEliminar: 3,
+    ganhaPular: 3,
+    perdeAjuda: 3,
+    perdeTodasAjudas: 2,
+    aumentaPeso: 2,
+    diminuiPeso: 2,
+},
+  6: { quiz: 22,
     avancar: 3,
     voltar: 3,
     ganhaVida: 3,
@@ -105,35 +126,8 @@ const configEventosPorModulo = {
     perdeTodasAjudas: 2,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  5: { quiz: 20,
-    avancar: 3,
-    voltar: 3,
-    ganhaVida: 3,
-    perdeVida: 3,
-    ganhaEliminar: 3,
-    ganhaPular: 3,
-    perdeAjuda: 5,
-    perdeTodasAjudas: 2,
-    aumentaPeso: 2,
-    diminuiPeso: 2,
-    loja: 2
-},
-  6: { quiz: 20,
-    avancar: 3,
-    voltar: 3,
-    ganhaVida: 3,
-    perdeVida: 3,
-    ganhaEliminar: 3,
-    ganhaPular: 3,
-    perdeAjuda: 5,
-    perdeTodasAjudas: 2,
-    aumentaPeso: 2,
-    diminuiPeso: 2,
-    loja: 2
-},
-  7: { quiz: 24,
+  7: { quiz: 26,
     avancar: 2,
     voltar: 3,
     ganhaVida: 2,
@@ -144,9 +138,8 @@ const configEventosPorModulo = {
     perdeTodasAjudas: 2,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  8: { quiz: 24,
+  8: { quiz: 26,
     avancar: 2,
     voltar: 3,
     ganhaVida: 2,
@@ -157,9 +150,8 @@ const configEventosPorModulo = {
     perdeTodasAjudas: 2,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  9: { quiz: 24,
+  9: { quiz: 26,
     avancar: 2,
     voltar: 3,
     ganhaVida: 2,
@@ -170,9 +162,8 @@ const configEventosPorModulo = {
     perdeTodasAjudas: 2,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 },
-  10: { quiz: 24,
+  10: { quiz: 26,
     avancar: 2,
     voltar: 3,
     ganhaVida: 2,
@@ -183,7 +174,6 @@ const configEventosPorModulo = {
     perdeTodasAjudas: 2,
     aumentaPeso: 2,
     diminuiPeso: 2,
-    loja: 2
 }
 };
 
@@ -199,7 +189,6 @@ const classePorEvento = {
     perdeTodasAjudas: 'cell-perde-todas',
     aumentaPeso: 'cell-peso-up',
     diminuiPeso: 'cell-peso-down',
-    loja: 'loja'
 };
 
 const lojaItens = {
@@ -492,8 +481,7 @@ if (tipo === 'diminuiPeso')
     type: 'diminuiPeso',
     msg: "Peso das perguntas diminuído"
   });
-  if (tipo === 'loja')
-  pool.push({ type: 'loja', msg: "Você encontrou uma loja" });
+
         }
     }
     return pool;
