@@ -546,30 +546,11 @@ function mostrarFeedbackErro(pergunta) {
   const optsDiv = document.getElementById("modal-opts");
   const helpDiv = document.getElementById("modal-help");
 
-  const explicacao = pergunta.feedbackErro?.explicacao || "Vamos revisar esse ponto.";
-  const exemplo = pergunta.feedbackErro?.exemplo || "";
-  const dica = pergunta.feedbackErro?.dica || "";
-
-  titulo.innerText = "Resposta incorreta";
-
-  msg.innerHTML = `
-    <p><strong>Por quê?</strong><br>${explicacao}</p>
-    ${exemplo ? `<p><strong>Exemplo correto:</strong><br>${exemplo}</p>` : ""}
-    ${dica ? `<p><strong>Dica:</strong><br>${dica}</p>` : ""}
-  `;
+  titulo.innerText = "Resposta Incorreta!";
+  msg.innerText = `A alternativa certa é: ${pergunta.opcoes[pergunta.correta]}.`;
 
   optsDiv.innerHTML = "";
   helpDiv.innerHTML = "";
-
-  const materia = pergunta.materia;
-  if (errosPorMateria[materia] >= 3) {
-    msg.innerHTML += `
-      <p style="margin-top:10px;color:#e67e22">
-        👀 Você está errando bastante <strong>${materia}</strong>.
-        Que tal revisar esse conteúdo?
-      </p>
-    `;
-  }
 
   const btn = document.createElement("button");
   btn.innerText = "Entendi, continuar";
