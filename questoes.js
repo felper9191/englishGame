@@ -5,12 +5,7 @@ const perguntas = [
     "correta": 1,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "O Simple Present é usado para falar de hábitos, rotinas e fatos gerais.",
-    "exemplo": "They play tennis every Saturday.",
-    "dica": "Palavras como 'every day', 'always' e 'usually' indicam Simple Present."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Complete a frase com o verbo no Simple Present: My father ___ to work by bus.",
@@ -18,12 +13,7 @@ const perguntas = [
     "correta": 1,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Na terceira pessoa do singular (he, she, it), o verbo recebe 's' ou 'es'.",
-    "exemplo": "My father goes to work by bus.",
-    "dica": "Se o sujeito for he/she/it, quase sempre o verbo muda."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Assinale a frase correta de acordo com o Simple Present:",
@@ -31,12 +21,7 @@ const perguntas = [
     "correta": 2,
     "modulo": 1,
     "nivel": "Médio",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "No Simple Present, usamos o verbo base e acrescentamos 's' na terceira pessoa.",
-    "exemplo": "She works in a hospital.",
-    "dica": "Evite usar 'working' ou verbos no passado no Simple Present."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Escolha a alternativa que indica uma rotina:",
@@ -44,12 +29,7 @@ const perguntas = [
     "correta": 2,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Rotinas e hábitos frequentes são expressos no Simple Present.",
-    "exemplo": "I watch TV every night.",
-    "dica": "Observe advérbios de frequência como 'every night' e 'always'."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Marque a frase que expressa um fato geral:",
@@ -57,12 +37,7 @@ const perguntas = [
     "correta": 0,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Fatos universais ou científicos usam o Simple Present.",
-    "exemplo": "The sun rises in the east.",
-    "dica": "Se a frase for sempre verdadeira, use Simple Present."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Complete a frase usando o Simple Present: Dogs ___ a lot.",
@@ -70,12 +45,7 @@ const perguntas = [
     "correta": 2,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Quando o sujeito é plural, o verbo não recebe 's'.",
-    "exemplo": "Dogs bark a lot.",
-    "dica": "O 's' no verbo só aparece com he, she ou it."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Qual alternativa apresenta erro no uso do Simple Present?",
@@ -83,12 +53,7 @@ const perguntas = [
     "correta": 2,
     "modulo": 1,
     "nivel": "Médio",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Na terceira pessoa do singular, o verbo precisa do 's'.",
-    "exemplo": "She go to bed early. (erro está na falta do acréscimo 'es'",
-    "dica": "Sempre revise frases com 'she', 'he' ou 'it'."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Escolha a forma correta do verbo entre parênteses: My sister ___ (study) English every day.",
@@ -96,12 +61,7 @@ const perguntas = [
     "correta": 1,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Com 'my sister' (she), o verbo precisa terminar em 's'.",
-    "exemplo": "My sister studies English every day.",
-    "dica": "Verbos terminados em consoante + 'y' mudam para 'ies'."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Marque a alternativa que completa corretamente: I usually ___ coffee in the morning.",
@@ -109,12 +69,7 @@ const perguntas = [
     "correta": 3,
     "modulo": 1,
     "nivel": "Fácil",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "Advérbios como 'usually' indicam hábitos no Simple Present.",
-    "exemplo": "I usually drink coffee in the morning.",
-    "dica": "Verifique se o verbo está no tempo correto."
-}
+    "materia": "Simple Present"
   },
   {
     "questao": "Identifique a frase que NÃO está no Simple Present:",
@@ -122,12 +77,7 @@ const perguntas = [
     "correta": 2,
     "modulo": 1,
     "nivel": "Médio",
-    "materia": "Simple Present",
-    "feedbackErro": {
-    "explicacao": "A frase com 'is reading' está no Present Continuous, não no Simple Present.",
-    "exemplo": "She reads a book every day.",
-    "dica": "Simple Present não usa 'is/are + ing'."
-}
+    "materia": "Simple Present"
   },
   
   {
@@ -136,12 +86,7 @@ const perguntas = [
   "correta": 2,
   "modulo": 2,
   "nivel": "Médio",
-  "materia": "Pronomes Pessoais",
-  "feedbackErro": {
-  "explicacao": "Me (pronome oblíquo), His (pronome possessivo) e Them (pronome oblíquo).",
-  "exemplo": "She",
-  "dica": "Pronomes Pessoais são aqueles usados como sujeito."
-}
+  "materia": "Pronomes Pessoais"
 },
   {
   "questao": "Qual alternativa usa corretamente um adjetivo em inglês?",
@@ -149,12 +94,7 @@ const perguntas = [
   "correta": 1,
   "modulo": 2,
   "nivel": "Médio",
-  "materia": "Adjetivos em Inglês",
-  "feedbackErro": {
-  "explicacao": "O adjetivo vem antes do substantivo em inglês e não varia em número ou gênero. E 'longly' é advérbio.",
-  "exemplo": "She has long hair.",
-  "dica": "Adjetivos são invariáveis e vêm primeiro."
-}
+  "materia": "Adjetivos em Inglês"
 },
 {
   "questao": "Choose the alternative that correctly completes the sentences, both in meaning and in grammar: 'Today is __________ than yesterday, but still __________ than last week.'",
@@ -162,12 +102,7 @@ const perguntas = [
   "correta": 1,
   "modulo": 2,
   "nivel": "Médio",
-  "materia": "Adjetivos em Inglês",
-  "feedbackErro": {
-  "explicacao": "Quando o adjetivo é curto e termina em consoante - vogal - consoante, dobra-se a última letra e adicina-se 'er' no comparativo.",
-  "exemplo": "My car is faster than yours.",
-  "dica": "Verifique o tamanho dos adjetivos."
-}
+  "materia": "Adjetivos em Inglês"
 },
 {
   "questao": "Em inglês, os adjetivos geralmente vêm:",
