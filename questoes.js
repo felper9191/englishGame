@@ -723,6 +723,334 @@ const perguntas = [
   nivel: "Difícil",
   materia: "Interpretação"
 },
+{
+  questao: "Complete corretamente: “Mary and ___ went to the store, but the manager invited ___ to stay outside.”",
+  opcoes: [
+    "me / I",
+    "I / we",
+    "I / me",
+    "me / we"
+  ],
+  correta: 2,
+  modulo: 3,
+  nivel: "Fácil",
+  materia: "Personal Pronouns"
+},
+{
+  questao: "Complete corretamente: “Between you and ___, I think this plan is going to fail.”",
+  opcoes: [
+    "I",
+    "me",
+    "mine",
+    "myself"
+  ],
+  correta: 1,
+  modulo: 3,
+  nivel: "Médio",
+  materia: "Personal Pronouns"
+},
+{
+  questao: "Os personal pronouns são divididos em object pronouns e subject pronouns. Que alternativa apresenta somente subject pronouns?",
+  opcoes: [
+    "I, she, we.",
+    "You, they, us.",
+    "It, them, he.",
+    "Me, they, it."
+  ],
+  correta: 0,
+  modulo: 3,
+  nivel: "Fácil",
+  materia: "Personal Pronouns"
+},
+{
+  questao: "Assinale a alternativa que apresenta personal pronouns que tanto podem funcionar como subject pronouns como object pronouns.",
+  opcoes: [
+    "He, it.",
+    "She, he.",
+    "You, it.",
+    "We, they."
+  ],
+  correta: 2,
+  modulo: 4,
+  nivel: "Médio",
+  materia: "Personal Pronouns"
+},
+{
+  questao: "Que alternativa indica o personal pronoun que substitui as palavras em parenteses na frase: I found (the books) in the library.",
+  opcoes: [
+    "they",
+    "it",
+    "them",
+    "him"
+  ],
+  correta: 2,
+  modulo: 4,
+  nivel: "Fácil",
+  materia: "Personal Pronouns"
+},
+{
+  questao: "Complete corretamente: _____ he home?",
+  opcoes: ["Are", "Be", "Is", "Am"],
+  correta: 2,
+  modulo: 1,
+  nivel: "Fácil",
+  materia: "Verb To Be"
+},
+{
+  questao: "Como fica conjugada a frase 'I am busy' no plural?",
+  opcoes: [
+    "I was busy",
+    "We were busy",
+    "I am busies",
+    "We are busy"
+  ],
+  correta: 3,
+  modulo: 4,
+  nivel: "Fácil",
+  materia: "Verb To Be"
+},
+{
+  questao: "Qual alternativa está correta? Every student and every teacher ______ required to submit an identification document.",
+  opcoes: ["are", "were", "have been", "is"],
+  correta: 3,
+  modulo: 5,
+  nivel: "Médio",
+  materia: "Verb To Be"
+},
+{
+  questao: "Qual das frases abaixo está no Past Continuous?",
+  opcoes: [
+    "I was not at home when she arrived.",
+    "My father was worried about your job.",
+    "We have been being lovers.",
+    "I was being evil with my mom."
+  ],
+  correta: 3,
+  modulo: 5,
+  nivel: "Médio",
+  materia: "Past Continuous"
+},
+{
+  questao: "Complete: We ______ (to live - Past Continuous) in Rome last year.",
+  opcoes: [
+    "Are living",
+    "Is living",
+    "Were living",
+    "Was living"
+  ],
+  correta: 2,
+  modulo: 5,
+  nivel: "Fácil",
+  materia: "Past Continuous"
+},
+{
+  questao: "Complete: Two years ago, you ______ (to graduate - Past Continuous) at High School.",
+  opcoes: [
+    "Are graduating",
+    "Is graduating",
+    "Were graduating",
+    "Was graduating"
+  ],
+  correta: 2,
+  modulo: 6,
+  nivel: "Fácil",
+  materia: "Past Continuous"
+},
+{
+  questao: "Choose the best option: Sarah has just finished medical school. She thinks she ______ as a doctor in São Paulo after graduation.",
+  opcoes: [
+    "will work",
+    "is going to work",
+    "will be working",
+    "works"
+  ],
+  correta: 0,
+  modulo: 6,
+  nivel: "Médio",
+  materia: "Future with Will"
+},
+{
+  questao: "Na frase 'We are going to visit our grandparents next weekend.', usa-se Going To porque apresenta:",
+  opcoes: [
+    "Plano já decidido",
+    "Evidência visível",
+    "Decisão tomada no momento da fala",
+    "Previsão baseada apenas na própria opinião"
+  ],
+  correta: 0,
+  modulo: 6,
+  nivel: "Fácil",
+  materia: "Future with Going To"
+},
+{
+  questao: "Que frase usa corretamente much/many?",
+  opcoes: [
+    "Much Brazilian men love soccer.",
+    "He has much things to do.",
+    "Many people are expected in the show.",
+    "She spent many money in that store."
+  ],
+  correta: 2,
+  modulo: 7,
+  nivel: "Fácil",
+  materia: "Much e Many"
+},
+{
+  questao: "Complete as frases usando a alternativa correta: “The kids ate _______ candles.” “How ______ water do you drink usually?” “He drank ______ coffee today.” “There are ________ books on that shelf.”",
+  opcoes: [
+    "little – many – little – few",
+    "many – much – little – few",
+    "much – few – little – few",
+    "much – many – little – few"
+  ],
+  correta: 1,
+  modulo: 7,
+  nivel: "Médio",
+  materia: "Much e Many"
+},
+{
+  questao: "Complete corretamente: Your ring seems to be expensive. You should have spent _____ money on it.",
+  opcoes: ["Many", "Much", "Very", "Few"],
+  correta: 1,
+  modulo: 7,
+  nivel: "Fácil",
+  materia: "Much e Many"
+},
+{
+  questao: "Qual alternativa está totalmente correta?",
+  opcoes: [
+    "The professor's research has generated many useful findings and much valuable information over the years.",
+    "The professor's research has generated much useful findings and many valuable information over the years.",
+    "The professor's research has generated several valuable informations and much researches over the years.",
+    "The professor's research has generated a few information and fewer research over the years."
+  ],
+  correta: 0,
+  modulo: 8,
+  nivel: "Difícil",
+  materia: "Quantificadores"
+},
+{
+  questao: "Qual alternativa está correta? ______ knowledge she acquired during her master's degree was invaluable.",
+  opcoes: ["Many", "Several", "Much of the", "A few"],
+  correta: 2,
+  modulo: 8,
+  nivel: "Médio",
+  materia: "Quantificadores"
+},
+{
+  questao: "Qual alternativa está correta? There were only ______ in the bottle, so we had to buy another one.",
+  opcoes: ["a few water", "a little water", "few waters", "many water"],
+  correta: 1,
+  modulo: 8,
+  nivel: "Fácil",
+  materia: "Little e Few"
+},
+{
+  questao: "Choose the best option: I gave the students two pieces of advice, but only ______ followed it.",
+  opcoes: [
+    "much of them",
+    "a little of them",
+    "a few of them",
+    "many of advice"
+  ],
+  correta: 2,
+  modulo: 9,
+  nivel: "Médio",
+  materia: "Little e Few"
+},
+{
+  questao: "Complete: My grandmother bought ____ apples at the market.",
+  opcoes: ["any", "much", "a", "some"],
+  correta: 3,
+  modulo: 9,
+  nivel: "Fácil",
+  materia: "Some e Any"
+},
+{
+  questao: "Complete: Can I have ____ water, please?",
+  opcoes: ["any", "many", "some", "few"],
+  correta: 2,
+  modulo: 9,
+  nivel: "Fácil",
+  materia: "Some e Any"
+},
+{
+  questao: "Complete: A: Is there ____ juice in the bottle? B: No, there isn't.",
+  opcoes: ["some", "few", "many", "any"],
+  correta: 3,
+  modulo: 10,
+  nivel: "Fácil",
+  materia: "Some e Any"
+},
+{
+  questao: "Complete: A: Would you like ____ cookies? B: Yes, I would like ____ cookies, but I don’t have ____ drinks.",
+  opcoes: ["some / some / any", "any / some / some", "some / any / some", "any / any / some"],
+  correta: 0,
+  modulo: 10,
+  nivel: "Médio",
+  materia: "Some e Any"
+},
+{
+  questao: "Qual alternativa apresenta somente contextos corretos para a palavra any?",
+  opcoes: [
+    "Em frases negativas e em frases afirmativas.",
+    "Em perguntas e em ofertas.",
+    "Em frases afirmativas e em ofertas.",
+    "Em frases negativas e em frases interrogativas."
+  ],
+  correta: 3,
+  modulo: 10,
+  nivel: "Médio",
+  materia: "Some e Any"
+},
+{
+  questao: "Complete: Débora is the _____ person I know.",
+  opcoes: ["worse", "worst", "bad", "baddest"],
+  correta: 1,
+  modulo: 3,
+  nivel: "Fácil",
+  materia: "Grau dos Adjetivos"
+},
+{
+  questao: "Complete: I live far, but my parents live _____.",
+  opcoes: ["far", "farthest", "farther", "farrer"],
+  correta: 2,
+  modulo: 4,
+  nivel: "Médio",
+  materia: "Grau dos Adjetivos"
+},
+{
+  questao: "Complete: In my opinion, Goiania is _________ city in Brazil.",
+  opcoes: ["more beautiful", "the beautifulest", "beautifuler", "the most beautiful"],
+  correta: 3,
+  modulo: 5,
+  nivel: "Fácil",
+  materia: "Grau dos Adjetivos"
+},
+{
+  questao: "Complete: My sister is _________ my brother. (old / superiority)",
+  opcoes: ["As old as", "Older than", "The oldest", "As older as"],
+  correta: 1,
+  modulo: 6,
+  nivel: "Fácil",
+  materia: "Grau Comparativo"
+},
+{
+  questao: "Complete: John is __________ his father. (short / equality)",
+  opcoes: ["Shorter", "The shorter", "As short as", "More short"],
+  correta: 2,
+  modulo: 7,
+  nivel: "Fácil",
+  materia: "Grau Comparativo"
+},
+{
+  questao: "Complete: A bronze necklace is ________ a gold necklace. (expensive / inferiority)",
+  opcoes: ["Less expensive than", "The expensivest", "More expensive than", "Less expensiver than"],
+  correta: 0,
+  modulo: 8,
+  nivel: "Médio",
+  materia: "Grau Comparativo"
+},
 ];
 
 export default perguntas;
