@@ -181,7 +181,7 @@ button:focus{outline:3px solid rgba(37,99,235,0.14);outline-offset:2px}
 .options-grid button{width:100%;text-align:left;display:block}
 .btn-opt{padding:16px 18px;border-radius:14px;border:0;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;transition:transform .12s ease,background .12s ease,box-shadow .12s ease}
 .btn-opt:hover{transform:translateY(-1px);background:var(--accent-2);box-shadow:0 10px 20px rgba(37,99,235,0.18)}
-
+.modal-help{display:flex;flex-direction:column;gap:12px}
 
 /* Loja modal overrides */
 .loja-modal{background:#0b1220;color:var(--card);padding:18px;border-radius:12px}
