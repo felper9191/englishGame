@@ -29,7 +29,7 @@ body{
   min-height:100vh;
 }
 
-.page-shell{width:min(1180px,100%);display:flex;flex-direction:column;gap:20px}
+.page-shell{width:min(100%);align-items:center;display:flex;flex-direction:column;gap:20px}
 .page-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px}
 .header-buttons{display:flex;gap:10px;align-items:center}
 .eyebrow{margin:0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted)}
@@ -275,6 +275,10 @@ button:focus-visible,.btn-opt:focus-visible{outline:3px solid rgba(37,99,235,0.1
 @media (max-width:640px){
   :root{--cell-size:44px;--gap:6px}
   h1{font-size:18px}
+  #board{
+  display:grid;
+  grid-template-columns:repeat(6,var(--cell-size));
+  }
   .controls{flex-direction:column;align-items:stretch;gap:8px}
   .options-grid{grid-template-columns:1fr}
   .home-card{padding:22px}

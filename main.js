@@ -223,7 +223,7 @@ const lojaItens = {
 };
 
 function getPrecoComModulo(precoBase) {
-  return Math.round(precoBase * (1 + moduloAtual * 0.2));
+  return Math.round(precoBase * (1 + (moduloAtual - 1) * 0.2));
 }
 
 function inicializarPoolPerguntas(modulo) {
@@ -281,6 +281,10 @@ function sairDaAplicacao() {
 function atualizarLoja(aviso = "") {
   document.getElementById("loja-pontos").innerText =
     `${aviso} Pontos: ${jogador.pontos} pts  •  Vidas: ${jogador.vidas}/${MAX_VIDAS}  •  Ajudas: ${jogador.ajudas.eliminar}/${MAX_AJUDA} | ${jogador.ajudas.pular}/${MAX_AJUDA}  •  Peso x${pesoAtual.toFixed(1)}`;
+  document.querySelectorAll("[data-preco-item]").forEach((elemento) => {
+    const item = lojaItens[elemento.dataset.precoItem];
+    if (item) elemento.innerText = `${getPrecoComModulo(item.preco)} pts`;
+  });
   atualizarStatus();
 }
 
